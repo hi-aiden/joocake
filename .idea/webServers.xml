@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="bf401c41-d5ba-46b2-98d2-d9ff28f01682" name="household.dothome.co.kr" url="http://household.dothome.co.kr">
+        <fileTransfer host="household.dothome.co.kr" port="2022" rootFolder="/host/home2/household" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="2022" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
