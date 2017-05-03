@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Board;
+use Validator;
+use Storage;
 
 class BoardController extends Controller
 {
@@ -37,32 +39,32 @@ class BoardController extends Controller
      */
     public function store(Request $request)
     {
-        $post = new Post;
+        $board = new Board;
 
-        $validator = Validator::make($data = Input::all(), Post::$rules);
+        $validator = Validator::make($data = $request->all(), Board::$rules);
 
         if ($validator->fails())
         {
             return redirect()->back()->withErrors($validator->errors())->withInput();
         }
 
-        if(Input::hasFile('thumbnail'))
+        if($request->hasFile('thumbnail'))
         {
-            $thumbnail = Input::file('thumbnail');
+            $thumbnail = $request->file('thumbnail');
 
             $newFileName = time().'-'.$thumbnail->getClientOriginalName();
 
-            $thumbnail->move(storage_path('files'), $newFileName);
-            $post->thumbnail = $newFileName;
+            $thumbnail->move(storage_path('app/public'), $newFileName);
+            $board->thumbnail = $newFileName;
         }
 
-        $post->title = Input::get('title');
-        $post->body = Input::get('body');
+        $board->title = $request->input('title');
+        $board->body = $request->input('body');
 
-        $post->save();
+        $board->save();
 
 
-        return redirect()->route('post.index');
+        return redirect()->route('board.index');
     }
 
     /**
@@ -73,7 +75,9 @@ class BoardController extends Controller
      */
     public function show($id)
     {
-        //
+        $board = Board::findOrFail($id);
+
+        return view('board.show', compact('board'));
     }
 
     /**

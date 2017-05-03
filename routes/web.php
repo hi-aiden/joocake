@@ -12,6 +12,7 @@
 */
 
 Route::get('/', function () {
+    echo storage_path('app/public');
     return view('welcome');
 });
 
