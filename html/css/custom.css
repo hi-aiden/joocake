@@ -1,0 +1,11 @@
+.navbar-brand>img {
+    width: 90%;
+}
+
+a.navbar-brand {
+    padding: 2px 15px;
+}
+
+.form-control {
+    border-radius: 0px;
+}
