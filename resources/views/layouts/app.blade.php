@@ -11,10 +11,11 @@
     <title>{{ config('app.name', 'Joocake') }}</title>
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}?rand={{ filemtime(public_path('css').'/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/custom.css') }}?rand={{ filemtime(public_path('css').'/custom.css') }}" rel="stylesheet">
 
     <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}?rand={{ filemtime(public_path('js').'/app.js') }}"></script>
     <script>
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
@@ -81,8 +82,5 @@
 
         @yield('content')
     </div>
-
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>

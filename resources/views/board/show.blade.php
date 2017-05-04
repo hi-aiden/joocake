@@ -15,7 +15,7 @@
 
                 <h3>
                     <a href="{{ route('board.edit', $board->id) }}" class="btn btn-primary"> 글 수정하기 </a>
-                    <form method="board" action="{{ route('board.destroy', $board->id) }}">
+                    <form method="post" action="{{ route('board.destroy', $board->id) }}">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="_method" value="delete">
                         <button class="btn btn-primary" value=""/>글 삭제하기</button>

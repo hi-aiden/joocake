@@ -88,7 +88,8 @@ class BoardController extends Controller
      */
     public function edit($id)
     {
-        //
+        $board = Board::find($id);
+        return view('board.edit', compact('board'));
     }
 
     /**
@@ -100,7 +101,37 @@ class BoardController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $board = Board::findOrFail($id);
+
+        $validator = Validator::make($data = $request->all(), Board::$rules);
+
+        if ($validator->fails())
+        {
+            return redirect()->back()->withErrors($validator->errors())->withInput();
+        }
+
+        if($request->hasFile('thumbnail'))
+        {
+            $thumbnail = $request->file('thumbnail');
+
+            if ($thumbnail->isValid()) {
+                if(substr($thumbnail->getMimeType(), 0, 5) == 'image') {
+                    $newFileName = md5(time()) .".". $thumbnail->getClientOriginalExtension();
+                    $thumbnail->move(storage_path('app/public'), $newFileName);
+
+                    @unlink(storage_path("app/public/{$board->thumbnail}"));
+
+                    $board->thumbnail = $newFileName;
+                }
+            }
+        }
+
+        $board->title = $request->input('title');
+        $board->body = $request->input('body');
+
+        $board->save();
+
+        return redirect()->route("board.show", $board->id);
     }
 
     /**
@@ -111,6 +142,11 @@ class BoardController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $board = Board::findOrFail($id);
+
+        @unlink(storage_path("app/public/{$board->thumbnail}"));
+
+        Board::destroy($id);
+        return redirect()->route('board.index');
     }
 }
