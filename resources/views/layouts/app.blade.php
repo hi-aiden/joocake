@@ -11,11 +11,11 @@
     <title>{{ config('app.name', 'Joocake') }}</title>
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}?rand={{ filemtime(public_path('css').'/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/custom.css') }}?rand={{ filemtime(public_path('css').'/custom.css') }}" rel="stylesheet">
+    <link href="{{ asset('resources/admin/css/app.css') }}?rand={{ filemtime(public_path('resources/admin/css').'/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('resources/admin/css/custom.css') }}?rand={{ filemtime(public_path('resources/admin/css').'/custom.css') }}" rel="stylesheet">
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}?rand={{ filemtime(public_path('js').'/app.js') }}"></script>
+    <script src="{{ asset('resources/admin/js/app.js') }}?rand={{ filemtime(public_path('resources/admin/js').'/app.js') }}"></script>
     <script>
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
@@ -38,7 +38,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        <img src="{{ asset('img/logo-text.png') }}" alt="{{ config('app.name', 'Joocake') }}">
+                        <img src="{{ asset('resources/admin/img/logo-text.png') }}" alt="{{ config('app.name', 'Joocake') }}">
                     </a>
                 </div>
 

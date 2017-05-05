@@ -5,7 +5,7 @@
  * Date: 2017-05-04
  * Time: 오후 4:36
  */
-
+/*
 function curl_get( $params, $api_url = 'localhost')
 {
     $curlopt_url = $api_url. (strpos($api_url, '?') === FALSE ? '?' : '&') . http_build_query($params);
@@ -31,27 +31,6 @@ function curl_get( $params, $api_url = 'localhost')
     }
 }
 
-//To remove all the hidden text not displayed on a webpage
-function strip_html_tags($str){
-    $str = preg_replace('/(<|>)\1{2}/is', '', $str);
-    $str = replaceWhitespace($str);
-    $str = strip_tags($str);
-    return $str;
-} //function strip_html_tags ENDS
-
-//To replace all types of whitespace with a single space
-function replaceWhitespace($str) {
-    $result = $str;
-    foreach (array(
-                 "  ", "\t",  " \r",  "\n",
-                 "\t\t", "\t", "\t\r", "\t\n",
-                 "\r\r", "\r", "\r\t", "\r\n",
-                 "\n\n", "\n", "\n\t", "\n\r",
-             ) as $replacement) {
-        $result = str_replace($replacement, $replacement[0], $result);
-    }
-    return $str !== $result ? replaceWhitespace($result) : $result;
-}
 $params = array(
     'blogId' => 'joocake',
     'currentPage' => 1,
@@ -62,18 +41,30 @@ $params = array(
 //http://blog.naver.com/PostTitleListAsync.nhn/?blogId=joocake%C2%A4tPage=1&categoryNo=17&countPerPage=30
 //http://blog.naver.com/PostTitleListAsync.nhn?blogId=joocake&currentPage=1&categoryNo=17&countPerPage=15
 $json = curl_get( $params, 'http://blog.naver.com/PostTitleListAsync.nhn');
-$json = strip_html_tags($json);
-print_r(json_decode(strip_tags(urldecode($json))));
+$json = strip_tags($json);
+$json = iconv("cp949", "utf-8", $json);
+$json = str_replace("\n","", $json);
+$json = str_replace("\r","", $json);
+$json = str_replace("\n\r","", $json);
 
-/*
-function file_get_contents_curl($url)
+//echo $json;
+print_r(json_decode(urldecode($json)));
+
+exit;
+print_r(json_decode(strip_tags(urldecode($json))));
+*/
+
+
+function file_get_contents_curl($curlopt_url)
 {
     $ch = curl_init();
 
-    curl_setopt($ch, CURLOPT_HEADER, 0);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+    curl_setopt($ch, CURLOPT_URL, $curlopt_url);
+    curl_setopt($ch, CURLOPT_HEADER, FALSE);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 15);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE );
 
     $data = curl_exec($ch);
     curl_close($ch);
@@ -83,6 +74,7 @@ function file_get_contents_curl($url)
 
 $url="http://blog.naver.com/PostView.nhn?blogId=joocake&logNo=220996912026";
 $site_html=  file_get_contents_curl($url);
+
 $matches=null;
 preg_match_all('~<\s*meta\s+property="(og:[^"]+)"\s+content="([^"]*)~i',     $site_html,$matches);
 $ogtags=array();
@@ -92,7 +84,7 @@ for($i=0;$i<count($matches[1]);$i++)
 }
 
 print_r($ogtags);
-*/
+
 
 //$fullpath = $_SERVER['DOCUMENT_ROOT'].'/../storage/app/public/test';
 /*

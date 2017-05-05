@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use Illuminate\Http\Request;
+use Ixudra\Curl\Facades\Curl;
 
 class HomeController extends Controller
 {
@@ -23,6 +25,31 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        // https://github.com/ixudra/curl
+/*
+        $params = array(
+            'blogId' => 'joocake',
+            'currentPage' => 1,
+            'categoryNo' => 17,
+            'countPerPage' => 30
+        );
+
+        $response = Curl::to('http://blog.naver.com/PostTitleListAsync.nhn')
+            ->withData($params)
+         //   ->asJson()
+            ->get();
+
+        $response = strip_tags($response);
+        $response = iconv("cp949", "utf-8", $response);
+        $response = str_replace("\n","", $response);
+        $response = str_replace("\r","", $response);
+        $response = str_replace("\n\r","", $response);
+
+        print_r(json_decode(urldecode($response), true));*/
+//        return view('home');
+
+        $category = Category::orderBy('created_at', 'desc')->paginate(10);
+
+        print_r($category);
     }
 }

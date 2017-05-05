@@ -7,6 +7,10 @@
           <mappings>
             <mapping deploy="/" local="$PROJECT_DIR$" web="/" />
           </mappings>
+          <excludedPaths>
+            <excludedPath path="/storage" />
+            <excludedPath path="/html/storage" />
+          </excludedPaths>
         </serverdata>
       </paths>
     </serverData>
